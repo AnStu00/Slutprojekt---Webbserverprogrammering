@@ -1,7 +1,16 @@
 <?php
-$sidtitel = 'Hem';
 include 'header.php';
 include 'nav.php';
+include 'anslutning/user.php';
+
+if (empty($_SESSION['user'])) {
+    //
+    header("Location: login.php");
+    //
+    //
+    die("Skickas till login.php");
+}
+
 ?>
     <!-- Första Sektionen -->
     <section class="first-sektion set-bg" data-setbg="img/bakgrund.jpg">
@@ -11,7 +20,7 @@ include 'nav.php';
                     <div class="col-lg-6 pr-0">
                         <h2>Sjuka Deals</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. </p>
-                        <a href="#" class="site-btn">Köp nu</a>
+                        <a href="usersite.php" class="site-btn">Ändra Användarinfo</a>
                     </div>
                 </div>
                 <div class="mobil-klass">

@@ -7,7 +7,60 @@ else{
   $sidtitel = 'Inloggningsida';
 }
 include 'header.php';
-include 'user.php';
+//Få anslutning till databasen samt startar en session
+require "anslutning/user.php";
+
+//Eventuell koll om användaren har skrivit in sina inloggningsuppgifter
+$skrivit_email = '';
+
+//Kollar om personen har skrivit in sina inloggningsuppgifter
+//Skickas hit när personen klickar på logga in knappen (submit)
+if(!empty($_POST)){
+  //Denna query hämtar personens uppgifter med deras email
+  $query = "SELECT * FROM users WHERE email =:email";
+  $query_parameter = array(':email' => $_POST['email']);
+
+try {
+  //Exiverar queryn mot databasen
+  $stmt = $db ->prepare($query);
+  $result = $stmt->execute($query_parameter);
+}
+catch(PDOException $ex){
+  //Eventuell kod för skydd. Kan vara dåligt eftersom getMessage kan göra att attackers får info om min kod...
+  die("Kunde inte köra queryn:" . $ex->getMessage());
+}
+
+//Denna variabeln kommer kolla om användaren lyckades logga in eller inte
+$login_okej = false;
+//Hämta användardatan från databasen, om $row är falsk kommer emailen de skrev in inte finnas registerad i databasen
+$row = $stmt->fetch();
+if($row){
+  //Använder lösenordet från databasen.
+  //Testar om lösenordet matchar med de hashade lösenordet i databasen
+  if ($check_password = hash('sha256', $_POST['password'])){
+    $login_okej = true;
+  }
+}
+//Om användaren lyckades logga in (d.v.s $login_okej = true) så skickas användaren vidare till användarsidan
+// Annars kommer ett felmedellande och personen får logga in ingen
+if ($login_okej){
+  unset($row['password']);
+
+//Denna sparar användardatan
+//Denna kommer användas varje gång jag behöver kolla om användaren är inloggad eller inte
+//Den kommer också användas för att få fram data på klientens Skärm
+$_SESSION['user'] = $row;
+
+//Skickas vidare till användarsidan
+header('Location: index.php');
+die("Skickas till: index.php");
+}
+else {
+  //Skriver ut till användaren att inloggningen misslyckades
+  print("Inloggningen misslyckades. <br />");
+  var_dump($login_okej);
+}
+}
 			?>
     <!-- Sid-preloader -->
     <div id="preloder">
@@ -122,19 +175,17 @@ include 'user.php';
                     </div>
                     <?php }else{ ?>
                         <h2>Logga in som en användare</h2>
-                        <?php echo !empty($statusMsg)?'<p class="'.$statusMsgType.'">'.$statusMsg.'</p>':''; ?>
-
-                            <form action="user_account.php" method="post">
+                            <form action="login.php" method="post">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skriv in din Email>
                                     <small id="emailHelp" class="form-text text-muted">Vi delar inte din email address med någon annan.</small>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Lösenord</label>
-                                    <input type="password" name="password" class="form-control" placeholder="Password">
+                                    <input type="password" name="password" class="form-control" placeholder="Password" value="">
                                 </div>
-                                <button type="submit" name="loginSubmit" class="btn btn-lg btn-block registreraknapp">Logga In</button>
+                                <button type="submit" name="submit" class="btn btn-lg btn-block registreraknapp" value="Logga">Logga In</button>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Har du ingen användare? <a href="register.php">Skapa en användare</a></label>
                                 </div>
