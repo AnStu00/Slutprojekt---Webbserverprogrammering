@@ -40,4 +40,5 @@ if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
 header('Content-Type: text/html; charset=utf-8');
 
 //Startar sessitionen
+session_start();
 ?>

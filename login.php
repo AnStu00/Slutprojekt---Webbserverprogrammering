@@ -7,8 +7,6 @@ else{
   $sidtitel = 'Inloggningsida';
 }
 include 'header.php';
-//Få anslutning till databasen samt startar en session
-require "anslutning/user.php";
 
 //Eventuell koll om användaren har skrivit in sina inloggningsuppgifter
 $skrivit_email = '';

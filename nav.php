@@ -1,13 +1,6 @@
 <?php
-session_start();
-$sessData = !empty($_SESSION['sessData'])?$_SESSION['sessData']:'';
-if(!empty($sessData['status']['msg'])){
-    $statusMsg = $sessData['status']['msg'];
-    $statusMsgType = $sessData['status']['type'];
-    unset($_SESSION['sessData']['status']);
-}
+require("anslutning/user.php");
 ?>
-
     <body>
         <!-- Eventuell pagepreloader -->
         <!-- Header-sektionen -->
@@ -19,9 +12,9 @@ if(!empty($sessData['status']['msg'])){
             <div class="nav-warp">
                 <div class="user-panel">
 <?php
-  if (isset($_SESSION['sessData']))
+  if (isset($_SESSION['user']))
   {
-    echo '<a href="./login.php">Användarsida</a>';
+    echo '<a href="./usersite.php">Användarsida</a>';
   }
       else
       {
@@ -29,10 +22,10 @@ if(!empty($sessData['status']['msg'])){
       }
 ?>
                 </div>
-                        <?php if(isset($_SESSION['sessData'])): ?>
+                        <?php if(isset($_SESSION['user'])): ?>
                           <div class="nav-warp">
                               <div class="user-panel">
-                            <a href="user_account.php?logoutSubmit=1" class="logout" style="text-decoration:none">Logga ut</a>
+                            <a href="loggaut.php" class="logout" style="text-decoration:none">Logga ut</a>
                               </div>
                             <?php else: ?>
                                 <div class="user-panel">
