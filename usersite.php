@@ -39,18 +39,20 @@ if (!empty($_POST['password'])) {
         //Om användaren inte skriver in ett nytt lösenord ska vi självklart inte uppdatera deras gamla
         $password = null;
     }
+    //Sätter datumet för när användaren ändrades senast, en variabel som används för att lägga in det i databasen med UPDATE
+  $changed = date("Y-m-d H:i:s");
 //Första query parameternas värden
-$query_parameter = array(':email' => $_POST['email'],':user_id' => $_SESSION['user']['id'],
-    );
+$query_parameter = array(':email' => $_POST['email'],':user_id' => $_SESSION['user']['id'], ':changed' => $changed,);
     //Om användaren ändras sitt lösenord så behöver vi parameter värden för det med
     if ($password !== null) {
       $query .= ", password = :password";
    }
-    //Uppdaterar tabellerna i database med emailen, men körs aldrig för mer värden läggs till nedan
+    //Uppdaterar tabellerna i database med emailen och ändringsstatus(changed), men körs aldrig för mer värden läggs till nedan
     $query = "
     UPDATE users
     SET
-        email = :email
+        email = :email,
+        changed = :changed
 ";
 
 //Om användaren uppdaterar sitt lösenord
