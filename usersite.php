@@ -94,24 +94,91 @@ include("header.php");
             </div>
 </section>
 <!-- Sid-topp-sektionen -->
-<h2>Ändra Uppgifter</h2>
-<div class="card" style="width: 20rem;">
-<div class="card-body">
-<h5 class="card-title">Namn: <?php echo $_SESSION['user']['first_name'];echo $_SESSION['user']['last_name'];?></h5>
+<section class="page-top-section set-bg" data-setbg="img/topp-på-sida.jpg">
+    <div class="container">
+        <h2>Användarsida</h2>
+        <div class="site-breadcrumb">
+            <a href="index.php">Hem</a> / <span>Användarsida</span>
+        </div>
+    </div>
+</section>
+<!-- Sid-topp-sektionen -->
+<div class="container">
+    <h2>Ändra Uppgifter</h2>
+    <div class="row">
+        <div class="col-sm">
+            <form action="usersite.php" method="post">
+                <div class="form-group">
+                    <label name="first_name">Förnamn</label>
+                    <input type="first_name" class="form-control" placeholder="<?php echo $_SESSION['user']['first_name'];?>">
+                    <small class="form-text text-muted">(Lämna tomt om du inte vill ändra ditt förnamn)</small>
+                </div>
+                <div class="form-group">
+                    <label name="last_name">Efternamn</label>
+                    <input type="last_name" class="form-control" placeholder="<?php echo $_SESSION['user']['last_name'];?>">
+                    <small class="form-text text-muted">(Lämna tomt om du inte vill ändra ditt efternamn)</small>
+                </div>
+                <div class="form-group">
+                    <label name="">Telefonnummer</label>
+                    <input type="telefon" class="form-control" placeholder="<?php echo $_SESSION['user']['telefon'];?>">
+                    <small class="form-text text-muted">(Lämna tomt om du inte vill ändra ditt telefonnummer)</small>
+                </div>
+                <div class="form-group">
+                    <label>Skapad:
+                        <?php echo $_SESSION['user']['skapad']; ?>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Ändrad senast:
+                        <?php echo $_SESSION['user']['changed']; ?>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Admin:
+                        <?php
+          if($_SESSION['user']['status'] == 1){
+            echo "Ja";
+          }
+          else {
+            echo "Nej";
+          }
+          ?>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Email address</label>
+                    <input type="email" class="form-control" aria-describedby="emailinformation" placeholder="<?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?>">
+                    <small id="emailinformation" class="form-text text-muted">Vi delar aldrig din emailadress.</small>
+                </div>
+                <div class="form-group">
+                    <label>Lösenord</label>
+                    <input type="password" class="form-control" aria-describedby="lösenordsinfo" placeholder="Lösenord">
+                    <small id="lösenordsinfo" class="form-text text-muted">(Lämna tomt om du inte vill ändra ditt lösenord)</small>
+                </div>
+                <button type="submit" class="btn registreraknapp">Ändra Information</button>
+                <button type="reset" class="btn registreraknapp">Återställ</button>
+            </form>
+            </ul>
+        </div>
+        <div class="col-sm">
+            På denna användarsida, kan du ändra dina användaruppgifter, om du inte vill ändra alla utan bara vill ändra någon, se till att de andra fälten är tomma.
+<?php
+if($_SESSION['user']['status'] == 1){
+echo '
+  <div class="container">
+  <div class="row">
+  <br>
+  Du har adminbehörighet, om du vill se mer detaljerad information. Öppna adminpanelen här:
+  <form action="adminsida.php" method="post">
+  <button type="submit" name="admin" class="btn registreraknapp">Administrationsida</button>
+  </form>
+  </div>
+  </div>
+  ';
+}
+?>
 </div>
-<ul class="list-group list-group-flush">
-<li class="list-group-item">Telefon: <?php echo $_SESSION['user']['telefon']; ?></li>
-<li class="list-group-item">Skapad: <?php echo $_SESSION['user']['skapad']; ?></li>
-<li class="list-group-item">Ändrad: <?php echo $_SESSION['user']['changed']; ?></li>
-<li class="list-group-item">Admin: <?php echo $_SESSION['user']['status']; ?></li>
-<form action="usersite.php" method="post">
-<li class="list-group-item">Email:<br><input type="text" name="email" value="<?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?>" /></li>
-<li class="list-group-item">Lösenord:<br><input type="password" name="password" value="" /><br />
-    <i>(Lämna tomt om du inte vill ändra ditt lösenord)</i></li>
-  <li class="list-group-item"><input type="submit" value="Uppdatera" />
-    <input type="reset" value="Återställ" /></li>
-</form>
-</ul>
+</div>
 </div>
 <?php
 include "footer.php";
