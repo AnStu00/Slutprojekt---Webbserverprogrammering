@@ -6,14 +6,14 @@ if(empty($_SESSION['user'])){
 }
 //Denna if satsen kollar om formuläret har skickats
 //Om den har det så skickar den vidare det och kör det. Annars kommer formet fortfarande vara uppe.
-if (!empty($_POST)){
+if (!empty($_POST)) {
   //Kollar om det är en gintlig email address personen skrivit in
-  if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
-    die("Felaktigt formulerad email adress");
-  }
+  if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) && $_POST['email']) {
+          die("Fel Email struktur");
+      }
 //Om användaren ändrar sin emailadress, måste vi se till att den emailen inte är tagen
 //Denna satsen körs inte om emailen inte ändras
-if ($_POST['email'] != $_SESSION['user']['email']) {
+if ($_POST['email'] != $_SESSION['user']['email'] && $_POST['email']) {
   $query = "SELECT 1 FROM users WHERE email = :email";
   //Definerar våra query parametrars värden
   $query_parameter = array(':email' => $_POST['email']);
@@ -24,7 +24,7 @@ if ($_POST['email'] != $_SESSION['user']['email']) {
   }
   catch(PDOException $ex){
     //Som tidigare nämt kanske jag använder getMessage
-    die("Kunde inte körs queryn: " . $ex->getMessage());
+    //die("Kunde inte körs queryn: " . $ex->getMessage());
   }
 //Hämtar resultaten om det finns några
 }
@@ -39,14 +39,46 @@ if (!empty($_POST['password'])) {
         //Om användaren inte skriver in ett nytt lösenord ska vi självklart inte uppdatera deras gamla
         $password = null;
     }
+    if (!empty($_POST['first_name']))
+    {
+    $first_name = $_POST['first_name'];
+    }
+       else {
+            $first_name = null;
+        }
+
+    if (!empty($_POST['last_name']))
+      {
+      $last_name = $_POST['last_name'];
+      }
+           else {
+                $last_name = null;
+            }
+
+            if (!empty($_POST['telefon']))
+            {
+            $telefon = $_POST['telefon'];
+            }
+               else {
+                    $telefon = null;
+                }
     //Sätter datumet för när användaren ändrades senast, en variabel som används för att lägga in det i databasen med UPDATE
   $changed = date("Y-m-d H:i:s");
 //Första query parameternas värden
 $query_parameter = array(':email' => $_POST['email'],':user_id' => $_SESSION['user']['id'], ':changed' => $changed,);
     //Om användaren ändras sitt lösenord så behöver vi parameter värden för det med
     if ($password !== null) {
-      $query .= ", password = :password";
-   }
+        $query_parameter[':password'] = $password;
+    }
+    if ($first_name !== null) {
+        $query_parameter[':first_name'] = $first_name;
+    }
+    if ($last_name!== null) {
+        $query_parameter[':last_name'] = $last_name;
+    }
+    if ($telefon !== null) {
+        $query_parameter[':telefon'] = $telefon;
+    }
     //Uppdaterar tabellerna i database med emailen och ändringsstatus(changed), men körs aldrig för mer värden läggs till nedan
     $query = "
     UPDATE users
@@ -61,6 +93,21 @@ if($password !== null){
       , password = :password
   ";
 }
+if($first_name !== null){
+  $query .= "
+      , first_name = :first_name
+  ";
+}
+if($last_name !== null){
+  $query .= "
+      , last_name = :last_name
+  ";
+}
+if($telefon !== null){
+  $query .= "
+      , telefon = :telefon
+  ";
+}
 //Nu slutförs uppdateringen av quieryn till databasen
 //Här ser vi till att endast en användare uppdateras i databasen
 $query .= "
@@ -73,14 +120,15 @@ try{
   $result = $stmt->execute($query_parameter);
 }
 catch(PDOException $ex){
-  echo "Ajdå! ";
-  die("Kunde inte köra queryn:" . $ex->getMessage());
+  //echo "Ajdå! ";
+  //die("Kunde inte köra queryn:" . $ex->getMessage());
+  var_dump($query);
 }
 //Nu har emailadressen ändrats, sparar vi datan i en $_SESSION
  $_SESSION['user']['email'] = $_POST['email'];
 
-header("Location: index.php");
-die("Skickar vidare till: index.php");
+//header("Location: index.php");
+//die("Skickar vidare till: index.php");
 }
 include("header.php");
 ?>
@@ -93,34 +141,24 @@ include("header.php");
                     </div>
             </div>
 </section>
-<!-- Sid-topp-sektionen -->
-<section class="page-top-section set-bg" data-setbg="img/topp-på-sida.jpg">
-    <div class="container">
-        <h2>Användarsida</h2>
-        <div class="site-breadcrumb">
-            <a href="index.php">Hem</a> / <span>Användarsida</span>
-        </div>
-    </div>
-</section>
-<!-- Sid-topp-sektionen -->
 <div class="container">
     <h2>Ändra Uppgifter</h2>
     <div class="row">
         <div class="col-sm">
             <form action="usersite.php" method="post">
                 <div class="form-group">
-                    <label name="first_name">Förnamn</label>
-                    <input type="first_name" class="form-control" placeholder="<?php echo $_SESSION['user']['first_name'];?>">
+                    <label>Förnamn</label>
+                    <input type="first_name" name="first_name" class="form-control" placeholder="<?php echo $_SESSION['user']['first_name'];?>">
                     <small class="form-text text-muted">(Lämna tomt om du inte vill ändra ditt förnamn)</small>
                 </div>
                 <div class="form-group">
-                    <label name="last_name">Efternamn</label>
-                    <input type="last_name" class="form-control" placeholder="<?php echo $_SESSION['user']['last_name'];?>">
+                    <label>Efternamn</label>
+                    <input type="last_name" name="last_name" class="form-control" placeholder="<?php echo $_SESSION['user']['last_name'];?>">
                     <small class="form-text text-muted">(Lämna tomt om du inte vill ändra ditt efternamn)</small>
                 </div>
                 <div class="form-group">
                     <label name="">Telefonnummer</label>
-                    <input type="telefon" class="form-control" placeholder="<?php echo $_SESSION['user']['telefon'];?>">
+                    <input type="telefon" name="telefon" class="form-control" placeholder="<?php echo $_SESSION['user']['telefon'];?>">
                     <small class="form-text text-muted">(Lämna tomt om du inte vill ändra ditt telefonnummer)</small>
                 </div>
                 <div class="form-group">
@@ -147,12 +185,12 @@ include("header.php");
                 </div>
                 <div class="form-group">
                     <label>Email address</label>
-                    <input type="email" class="form-control" aria-describedby="emailinformation" placeholder="<?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?>">
-                    <small id="emailinformation" class="form-text text-muted">Vi delar aldrig din emailadress.</small>
+                    <input type="email" name="email" value="<?php echo htmlentities($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8'); ?>" class="form-control" aria-describedby="emailinformation" placeholder="">
+                    <small id="emailinformation" class="form-text text-muted">(Lämna som den är om du inte vill ändra den)</small>
                 </div>
                 <div class="form-group">
                     <label>Lösenord</label>
-                    <input type="password" class="form-control" aria-describedby="lösenordsinfo" placeholder="Lösenord">
+                    <input type="password" name="password" class="form-control" aria-describedby="lösenordsinfo" placeholder="Lösenord">
                     <small id="lösenordsinfo" class="form-text text-muted">(Lämna tomt om du inte vill ändra ditt lösenord)</small>
                 </div>
                 <button type="submit" class="btn registreraknapp">Ändra Information</button>
