@@ -88,7 +88,7 @@ else {
     <section class="domain-search-section sc-about-page">
         <div class="container">
             <div class="section-title">
-                <img src="./img/sektions-titel-ikon.png" alt="#">
+                <i class="fas fa-sign-in-alt fa-3x"></i>
                 <?php if(isset($_SESSION['sessData'])): ?>
                     <p>Användarsida</p>
                     <h2>Uppdatera Användarinformation</h2>
@@ -176,7 +176,7 @@ else {
                             <form action="login.php" method="post">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Skriv in din Email>
+                                    <input type="email" name="email" class="form-control" placeholder="Skriv in din Email">
                                     <small id="emailHelp" class="form-text text-muted">Vi delar inte din email address med någon annan.</small>
                                 </div>
                                 <div class="form-group">

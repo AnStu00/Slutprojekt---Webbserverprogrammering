@@ -7,11 +7,11 @@
           <img src="./img/logo.png" alt="logo">
           <p>Proin gravida nibh vel velit auctor aliquet, aenean sollicitudin lorem quis bibendum auctor, nisi elit consequat ipsum.Proin gravida nibh vel velit auctor aliquet, aenean sollicitudin lorem quis bibendum auctor, nisi elit consequat ipsum</p>
           <div class="fw-social social">
-            <a href="#"><i class="fa fa-pinterest"></i></a>
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-dribbble"></i></a>
-            <a href="#"><i class="fa fa-behance"></i></a>
+            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+            <a href="#"><i class="fab fa-facebook-p"></i></a>
+            <a href="#"><i class="fab fa-twitter-p"></i></a>
+            <a href="#"><i class="fab fa-dribbble-p"></i></a>
+            <a href="#"><i class="fab fa-behance-p"></i></a>
           </div>
         </div>
       </div>
@@ -85,7 +85,7 @@
       <li><a href="">Kontakta</a></li>
     </ul>
     <div class="copyright">
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Denna webbsidan gjordes med <i class="fa fa-heart-o" aria-hidden="true"></i> av <a href="André Sturesson" target="_blank">André Sturesson</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Denna webbsidan gjordes med <i class="fas fa-heart" aria-hidden="true"></i> av <a href="André Sturesson" target="_blank">André Sturesson</a>
 </div>
   </div>
 </footer>

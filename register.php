@@ -68,7 +68,7 @@ if (!empty($_POST)){
         <section class="domain-search-section sc-about-page">
             <div class="container">
                 <div class="section-title">
-                    <img src="./img/sektions-titel-ikon.png" alt="#">
+                    <i class="fas fa-user fa-3x"></i>
                     <p>Här nedan skapar du din egna användare</p>
                     <h2>Skapa en användare</h2>
                 </div>

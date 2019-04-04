@@ -36,6 +36,9 @@ if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
     undo_magic_quotes_gpc($_GET);
     undo_magic_quotes_gpc($_COOKIE);
 }
+
+//För att slippa skriva samma kod på alla undersidor i forumet, blir detta lättare. Att skriva det här och sedan includa i alla forumsfiler.
+
 //Denna koden säger till klienten(webbläsaren) att UTF-8 ska användas som teckenkodning.
 header('Content-Type: text/html; charset=utf-8');
 
