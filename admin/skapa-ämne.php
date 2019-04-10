@@ -13,6 +13,7 @@ if(isset($_POST['submit'])){
 	$topic_datum = date("Y-m-d H:i:s");
 	$topic_av = $_SESSION['user']['first_name'];
 
+  $posts_innehåll = $_POST['posts_innehåll'];
 
   $query = "INSERT INTO ämne(topic_subject, topic_datum, topic_kat, topic_av) VALUES ('$topic_subject', '$topic_datum', '$topic_kat', '$topic_av')";
   try{
@@ -23,6 +24,15 @@ if(isset($_POST['submit'])){
     die("Det uppstod lite problem när skapandet skulle ske:" . $ex->getMessage());
 		var_dump($query);
   }
+  $query1 = "INSERT INTO posts(post_innehåll, post_datum, post_ämne, post_av) VALUES ('$posts_innehåll', '$topic_datum', '$topic_kat', '$topic_av')";
+  try{
+    $stmt = $db->prepare($query1);
+    $stmt->execute();
+  }
+  catch(PDOException $ex){
+    die("Det uppstod lite problem när skapandet skulle ske:" . $ex->getMessage());
+    var_dump($query);
+  }
 	echo "Inlägget har gjorts!";
 }
 
@@ -31,7 +41,6 @@ $query = "SELECT * FROM kategorier";
 echo '<form method="post" action="skapa-ämne.php">
 									 Ämne: <input type="text" name="topic_subject" />
 									 Kategori:';
-
 							 echo '<select name="topic_kat">';
 									 foreach ($db->query($query) as $row)
 									 {
@@ -39,7 +48,7 @@ echo '<form method="post" action="skapa-ämne.php">
 									 }
 							 echo '</select>';
 
-							 echo 'Medelande: <textarea name="post_content" /></textarea>
+							 echo 'Medelande: <textarea name="posts_innehåll" /></textarea>
 									 <input type="submit" name="submit" value="Gör inlägget" />
 								</form>';
 ?>
