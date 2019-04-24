@@ -3,6 +3,14 @@ $sidtitel = "Forum";
 include 'header.php';
 include 'nav.php';
 
+if(isset($_POST[])){
+
+
+
+}
+
+
+
 $query = "SELECT * FROM kategorier";
 $query1 = "SELECT * FROM ämne";
 $query2 = "SELECT * FROM posts";
@@ -30,11 +38,15 @@ $query2 = "SELECT * FROM posts";
     </tr>
   </thead>
   <tbody>
+  <form method="post" action="forum.php">
 <?php
 foreach ($db->query($query) as $row){
   echo '<tr>';
 echo '<td>';
-echo $row['kat_namn'];
+?>
+<input type="submit" class="btn registreraknapp" name="<?php echo $row['kat_id']; ?>" value=<?php echo $row['kat_namn'];?>>
+<?php
+echo '</form>';
 echo '</td>';
 echo '<td>';
 echo $row['kat_beskrivning'];
@@ -44,6 +56,8 @@ echo $row['kat_id'];
 echo '</td>';
 echo '</tr>';
 }
+
+
 ?>
   </tbody>
   <thead>
