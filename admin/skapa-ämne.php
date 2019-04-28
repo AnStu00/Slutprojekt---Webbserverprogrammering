@@ -13,9 +13,11 @@ if(isset($_POST['submit'])){
 	$topic_datum = date("Y-m-d H:i:s");
 	$topic_av = $_SESSION['user']['first_name'];
 
+//Genererar en random ID för att jag ska få samma på de 2 olika tabellerna vilket gör att jag kan hämta det enkelt och säkert.
+  $id = $randomNumber = rand();
   $posts_innehåll = $_POST['posts_innehåll'];
 
-  $query = "INSERT INTO ämne(topic_subject, topic_datum, topic_kat, topic_av) VALUES ('$topic_subject', '$topic_datum', '$topic_kat', '$topic_av')";
+  $query = "INSERT INTO ämne(topic_id, topic_subject, topic_datum, topic_kat, topic_av) VALUES ('$id', '$topic_subject', '$topic_datum', '$topic_kat', '$topic_av')";
   try{
     $stmt = $db->prepare($query);
     $stmt->execute();
@@ -24,7 +26,7 @@ if(isset($_POST['submit'])){
     die("Det uppstod lite problem när skapandet skulle ske:" . $ex->getMessage());
 		var_dump($query);
   }
-  $query1 = "INSERT INTO posts(post_innehåll, post_datum, post_ämne, post_av) VALUES ('$posts_innehåll', '$topic_datum', '$topic_kat', '$topic_av')";
+  $query1 = "INSERT INTO posts(post_id, post_innehåll, post_datum, post_ämne, post_av) VALUES ('$id', '$posts_innehåll', '$topic_datum', '$topic_kat', '$topic_av')";
   try{
     $stmt = $db->prepare($query1);
     $stmt->execute();
