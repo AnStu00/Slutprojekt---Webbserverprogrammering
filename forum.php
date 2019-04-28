@@ -6,7 +6,7 @@ include 'nav.php';
 <!-- Första Sektionen -->
 <section class="page-top-section set-bg" data-setbg="img/topp-på-sida.jpg">
   <div class="container">
-    <h2>Forum
+    <h2>Forum - Kategorier
     </h2>
     <div class="site-breadcrumb">
       <a href="index.php">Hem
@@ -16,8 +16,6 @@ include 'nav.php';
     </div>
   </div>
 </section>
-<h2>Här kommer forumet!
-</h2>
 <?php
 $query = "SELECT kat_id, kat_namn, kat_beskrivning FROM kategorier";
 try{
