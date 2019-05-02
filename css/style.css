@@ -560,7 +560,9 @@ ol {
   margin-top: 75px;
   margin-left: 15px;
 }
-
+.fill {
+	width: 100%;
+}
 .user-panel {
 	float: right;
 	background: #eb2b63;

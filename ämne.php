@@ -15,17 +15,24 @@ catch(PDOException $ex){
   die("Kunde inte köra queryn: " . $ex->getMessage());
 }
 
+try{
+$stmt = $db->query("SELECT kat_namn FROM kategorier WHERE kat_id='$id'");
+$kategori = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+catch(PDOException $ex){
+  die("Kunde inte köra queryn: " . $ex->getMessage());
+}
 ?>
 <!-- Första Sektionen -->
 <section class="page-top-section set-bg" data-setbg="img/topp-på-sida.jpg">
   <div class="container">
-    <h2>(Namnet på ämnet)
+    <h2>Alla Inlägg i <?php echo htmlentities($kategori['kat_namn'], ENT_QUOTES, 'UTF-8'); ?>
     </h2>
     <div class="site-breadcrumb">
-      <a href="index.php">Hem</a> / <a href="forum.php">Forum</a> / <span>Ämnet (Ska bli rätt snart)</span>
+      <a href="index.php">Hem</a> / <a href="forum.php">Kategorier</a> / <span><?php echo $kategori['kat_namn']; ?></span>
     </div>
   </div>
-  <button class="btn registreraknapp nere">Skapa ämne</button>
+  <button class="btn registreraknapp nere" onclick="window.location.href='admin/skapa-ämne.php'">Skapa ämne</button>
 </section>
 
 <table class="table table-striped">
