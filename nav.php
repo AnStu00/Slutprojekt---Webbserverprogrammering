@@ -36,7 +36,7 @@ require("anslutning/user.php");
                     <ul class="main-menu">
                         <li><a href="./index.php">Hem</a></li>
                         <li><a href="./about.php">Om Oss</a></li>
-                        <li><a href="./service.php">Våra Services</a></li>
+                        <li><a href="./handla.php">Webbshop</a></li>
                         <li><a href="./forum.php">Forum</a></li>
                         <li><a href="./contact.php">Kontakta Oss</a></li>
                     </ul>

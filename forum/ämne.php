@@ -65,5 +65,5 @@ catch(PDOException $ex){
   </tbody>
 </table>
 <?php
-include('footer.php');
+include 'footer.php';
 ?>
