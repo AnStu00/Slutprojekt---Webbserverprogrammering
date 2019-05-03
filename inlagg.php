@@ -78,34 +78,29 @@ header('Location: '.$_SERVER['REQUEST_URI']);
   <button class="btn registreraknapp nere" onclick="window.location.href='admin/skapa-ämne.php'">Redigera Inlägg</button>
 </section>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">Innehåll
-      </th>
-      <th scope="col">Datum
-      </th>
-      <th scope="col">Av
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach($rows1 as $row1): ?>
-    <tr>
-      <td>
-          <?php echo htmlentities($row1['post_innehåll'], ENT_QUOTES, 'UTF-8'); ?>
-        </a>
-      </td>
-      <td>
-        <?php echo htmlentities($row1['post_datum'], ENT_QUOTES, 'UTF-8'); ?>
-      </td>
-      <td>
-        <?php echo htmlentities($row1['post_av'], ENT_QUOTES, 'UTF-8'); ?>
-      </td>
-    </tr>
+  <div class="card mb-3 wow fadeIn">
+      <div class="card-header font-weight-bold">Huvudinlägget</div>
+
+  <?php foreach($rows1 as $row1): ?>
+<div class="card-body">
+      <div class="row">
+          <div class="col-md-2">
+              <img src="<?php echo htmlentities($_SESSION['user']['profilbild'], ENT_QUOTES, 'UTF-8'); ?>" class="img img-rounded img-thumbnail" style="max-width: 120px"/>
+              <p class="text-secondary text-center"></p>
+          </div>
+          <div class="col-md-10">
+              <p>
+                  <strong>  <?php echo htmlentities($row1['post_av'], ENT_QUOTES, 'UTF-8'); ?></a>
+              </p>
+              <div class="clearfix"></div>
+              <p><?php echo htmlentities($row1['post_innehåll'], ENT_QUOTES, 'UTF-8'); ?></p>
+          </div>
+      </div>
+  </div>
     <?php endforeach; ?>
-  </tbody>
-</table>
+    </div>
+</div>
+
 <div class="container" style="max-width: 95vw !important;">
   <div class="card mb-3 wow fadeIn">
       <div class="card-header font-weight-bold">Kommentarer</div>
@@ -114,7 +109,7 @@ header('Location: '.$_SERVER['REQUEST_URI']);
 <div class="card-body">
       <div class="row">
           <div class="col-md-2">
-              <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-thumbnail" style="max-width: 120px"/>
+              <img src="<?php echo htmlentities($_SESSION['user']['profilbild'], ENT_QUOTES, 'UTF-8'); ?>" class="img img-rounded img-thumbnail" style="max-width: 120px"/>
               <p class="text-secondary text-center"><?php echo $row['post_datum'];?></p>
           </div>
           <div class="col-md-10">

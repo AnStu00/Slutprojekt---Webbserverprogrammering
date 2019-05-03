@@ -14,7 +14,7 @@ require("anslutning/user.php");
 <?php
   if (isset($_SESSION['user']))
   {
-    echo '<a href="./usersite.php">Användarsida</a>';
+    echo '<a href="loggaut.php" class="logout registreraknapp" style="text-decoration:none">Logga ut</a>';
   }
       else
       {
@@ -23,22 +23,19 @@ require("anslutning/user.php");
 ?>
                 </div>
                         <?php if(isset($_SESSION['user'])): ?>
-                          <div class="nav-warp">
-                              <div class="user-panel">
-                            <a href="loggaut.php" class="logout" style="text-decoration:none">Logga ut</a>
+                              <div class="user-panel1">
+                            <a href="./usersite.php">Användarsida</a>
                               </div>
                             <?php else: ?>
-                                <div class="user-panel">
+                                <div class="user-panel1">
                                 <a href="register.php" style="text-decoration:none">Registrera</a>
-
                               </div>
                                 <?php endif; ?>
                     <ul class="main-menu">
                         <li><a href="./index.php">Hem</a></li>
-                        <li><a href="./about.php">Om Oss</a></li>
                         <li><a href="./handla.php">Webbshop</a></li>
                         <li><a href="./forum.php">Forum</a></li>
-                        <li><a href="./contact.php">Kontakta Oss</a></li>
+                        <li><a href="./kontakt.php">Kontakta Oss</a></li>
                     </ul>
                 </div>
         </header>

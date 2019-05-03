@@ -62,6 +62,13 @@ if (!empty($_POST['password'])) {
                else {
                     $telefon = null;
                 }
+      if (!empty($_POST['profilbild']))
+      {
+      $profilbild = $_POST['profilbild'];
+      }
+            else {
+            $profilbild = null;
+                }
     //Sätter datumet för när användaren ändrades senast, en variabel som används för att lägga in det i databasen med UPDATE
   $changed = date("Y-m-d H:i:s");
 //Första query parameternas värden
@@ -78,6 +85,9 @@ $query_parameter = array(':email' => $_POST['email'],':user_id' => $_SESSION['us
     }
     if ($telefon !== null) {
         $query_parameter[':telefon'] = $telefon;
+    }
+    if ($profilbild !== null) {
+        $query_parameter[':profilbild'] = $profilbild;
     }
     //Uppdaterar tabellerna i database med emailen och ändringsstatus(changed), men körs aldrig för mer värden läggs till nedan
     $query = "
@@ -106,6 +116,11 @@ if($last_name !== null){
 if($telefon !== null){
   $query .= "
       , telefon = :telefon
+  ";
+}
+if($profilbild !== null){
+  $query .= "
+      , profilbild = :profilbild
   ";
 }
 //Nu slutförs uppdateringen av quieryn till databasen
@@ -193,6 +208,10 @@ include("header.php");
                     <input type="password" name="password" class="form-control" aria-describedby="lösenordsinfo" placeholder="Lösenord">
                     <small id="lösenordsinfo" class="form-text text-muted">(Lämna tomt om du inte vill ändra ditt lösenord)</small>
                 </div>
+                  <div class="form-group">
+                    <label for="exampleFormControlFile1">Profilbild</label>
+                    <input type="file" class="form-control-file" id="profilbild" name="profilbild">
+                  </div>
                 <button type="submit" class="btn registreraknapp">Ändra Information</button>
                 <button type="reset" class="btn registreraknapp">Återställ</button>
             </form>
@@ -200,6 +219,11 @@ include("header.php");
         </div>
         <div class="col-sm">
             På denna användarsida, kan du ändra dina användaruppgifter, om du inte vill ändra alla utan bara vill ändra någon, se till att de andra fälten är tomma.
+            <br><br>
+            Din profilbild:
+            <div class="col-md-2">
+                <img src="<?php echo htmlentities($_SESSION['user']['profilbild'], ENT_QUOTES, 'UTF-8'); ?>" class="img img-rounded img-thumbnail" style="max-width: 120px"/>
+            </div>
 <?php
 if($_SESSION['user']['status'] == 1){
 echo '

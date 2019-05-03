@@ -9,9 +9,9 @@ include 'nav.php';
             <div class="first-content text-white">
                 <div class="row">
                     <div class="col-lg-6 pr-0">
-                        <h2>Sjuka Deals</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. </p>
-                        <a href="#" class="site-btn">Köp Nu</a>
+                        <h2>Spacephone</h2>
+                        <p>En mobiltelefonswebbplats programmerad som slutprojekt i kursen Webbserverprogrammering 1. Detta är alltså inte en riktig webbplats utan bara ett tema för att visa vad som kan göras.</p>
+                        <a href="handla.php" class="site-btn">Börja Handla Nu</a>
                     </div>
                 </div>
                 <div class="mobil-klass">
@@ -25,52 +25,52 @@ include 'nav.php';
     <section class="features-section spad">
         <div class="container">
             <div class="section-title">
-                <img src="./img/sektions-titel-ikon.png" alt="#">
+                <i class="fas fa-mobile fa-3x"></i>
                 <p>De bästa som mobiltelefonerna som finns</p>
                 <h2>Se våra funktioner</h2>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 feature-item">
                     <div class="ft-icon">
-                        <i class="flaticon-domain-registration"></i>
+                        <i class="fas fa-mobile"></i>
                     </div>
-                    <h4>Köp en mobil</h4>
-                    <p>Nullam lacinia ex eleifend orci porttitor, suscipit interdum augue condimentum. Etiam pretium turpis eget nibh laoreet iaculis.</p>
+                    <h4>Spacephone Light</h4>
+                    <p>Våran billigaste men populäraste mobiltelefon. Denna har allting du behöver till ett billigt pris.</p>
                 </div>
                 <div class="col-lg-4 col-md-6 feature-item fi-center-top">
                     <div class="ft-icon">
-                        <i class="flaticon-server"></i>
+                        <i class="fas fa-mobile"></i>
                     </div>
-                    <h4>En annan</h4>
-                    <p>Ex eleifend orci porttitor, suscipit interdum augue condimentum. Etiam pretium turpis eget nibh laoreet iaculis. </p>
+                    <h4>Spacephone Ultra</h4>
+                    <p>Våran lite exlusivaste modell, den har allt du behöver plus lite till. Man kan omöjligt bli missnöjd med denna enhet!</p>
                 </div>
                 <div class="col-lg-4 col-md-6 feature-item">
                     <div class="ft-icon">
-                        <i class="flaticon-devices"></i>
+                        <i class="fas fa-mobile"></i>
                     </div>
-                    <h4>Sak</h4>
-                    <p>Suscipit interdum augue condimentum. Etiam pretium turpis eget nibh laoreet iaculis. Proin ac urna at lectus volutpat lobortis. </p>
+                    <h4>Spacephone Orginal</h4>
+                    <p>Balans.. Vad ska man mer säga om basmodellen. Allt du behöver, verkligen!</p>
                 </div>
                 <div class="col-lg-4 col-md-6 feature-item">
                     <div class="ft-icon">
-                        <i class="flaticon-smartphone"></i>
+                        <i class="fas fa-address-book"></i>
                     </div>
                     <h4>Smarta kontakter</h4>
-                    <p>Nullam lacinia ex eleifend orci porttitor, suscipit interdum augue condimentum. Etiam pretium turpis eget nibh laoreet iaculis.</p>
+                    <p>Alla kommer bli imponerad av din mobiltelefon om du köper en av oss så får du en helt unik mobiltelefon som aldrig förr existerat!</p>
                 </div>
                 <div class="col-lg-4 col-md-6 feature-item">
                     <div class="ft-icon">
-                        <i class="flaticon-folder"></i>
+                        <i class="fas fa-headset"></i>
                     </div>
                     <h4>Gratis Support</h4>
-                    <p>Ex eleifend orci porttitor, suscipit interdum augue condimentum. Etiam pretium turpis eget nibh laoreet iaculis. </p>
+                    <p>Självklart erbjuder vi gratis support i hela 2 år när du köper din mobiltelefon. Försäkring kostar extra.</p>
                 </div>
                 <div class="col-lg-4 col-md-6 feature-item">
                     <div class="ft-icon">
-                        <i class="flaticon-viral-marketing"></i>
+                        <i class="fab fa-affiliatetheme"></i>
                     </div>
                     <h4>Visuell struktur</h4>
-                    <p>Suscipit interdum augue condimentum. Etiam pretium turpis eget nibh laoreet iaculis. Proin ac urna at lectus volutpat lobortis. </p>
+                    <p>Den ser helt sjukt galen ut, bara kolla på den!</p>
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@ include 'nav.php';
     <!-- Prestandan på mobiltelefoner -->
     <section class="skills-and-testimonials-section spad">
         <div class="section-title st-black">
-            <img src="./img/sektions-titel-ikon.png" alt="#">
+            <i class="fas fa-tachometer-alt fa-3x"></i>
             <p>Hastigheten är extrem</p>
             <h2>Prestandan på våra mobiltelefoner gentemot andra företags</h2>
         </div>
@@ -129,7 +129,7 @@ include 'nav.php';
                             <div class="ti-author-pic set-bg" data-setbg="img/review/1.jpg"></div>
                             <div class="ti-author">
                                 <h6>Alexander Wassbjer</h6>
-                                <span>Kund nr.1 Fuckboy deluxe</span>
+                                <span>En programmerare</span>
                             </div>
                         </div>
                         <div class="testimonial-item">
@@ -138,8 +138,8 @@ include 'nav.php';
                             </div>
                             <div class="ti-author-pic set-bg" data-setbg="img/review/1.jpg"></div>
                             <div class="ti-author">
-                                <h6>David Lojqvist</h6>
-                                <span>Kund 352 Supreme</span>
+                                <h6>David Bergqvist</h6>
+                                <span>Kund QI</span>
                             </div>
                         </div>
                     </div>
@@ -153,7 +153,7 @@ include 'nav.php';
     <section class="pricing-section spad pt-0">
         <div class="container">
             <div class="section-title">
-                <img src="./img/sektions-titel-ikon.png" alt="#">
+                <i class="fas fa-money-bill-wave fa-3x"></i>
                 <p>Det bästa som finns</p>
                 <h2>Se våra funktioner</h2>
             </div>
@@ -223,7 +223,7 @@ include 'nav.php';
             <div class="row">
                 <div class="col-lg-9 banner-text text-white">
                     <h3>Försökring för endast 650kr/månad</h3>
-                    <p>Proin gravida nibh vel velit auctor aliquet, aenean sollicitudin lorem quis bibendum auctor, nisi elit consequat ipsum</p>
+                    <p>Denna försäkring täcker allting! incl vattenskadad, tappad, stulen, omprogrammerad, krashad. Allt!</p>
                 </div>
                 <div class="col-lg-3 text-left text-lg-right">
                     <a href="" class="site-btn">Lägg till</a>
