@@ -1,4 +1,5 @@
 <?php
+$sidtitel = "Användarsida";
 include("nav.php");
 if(empty($_SESSION['user'])){
   header("Location: login.php");
@@ -102,26 +103,32 @@ if($password !== null){
   $query .= "
       , password = :password
   ";
+  $_SESSION['password'] = $password;
 }
 if($first_name !== null){
   $query .= "
       , first_name = :first_name
   ";
+  $_SESSION['first_name'] = $first_name;
 }
 if($last_name !== null){
   $query .= "
       , last_name = :last_name
   ";
+    $_SESSION['last_name'] = $last_name;
 }
 if($telefon !== null){
   $query .= "
       , telefon = :telefon
   ";
+  $_SESSION['telefon'] = $telefon;
 }
 if($profilbild !== null){
   $query .= "
       , profilbild = :profilbild
   ";
+  $_SESSION['profilbild'] = $profilbild;
+
 }
 //Nu slutförs uppdateringen av quieryn till databasen
 //Här ser vi till att endast en användare uppdateras i databasen
@@ -144,8 +151,11 @@ catch(PDOException $ex){
 
 //header("Location: index.php");
 //die("Skickar vidare till: index.php");
+header('Location: usersite.php');
 }
 include("header.php");
+?>
+<?php
 ?>
 <!-- Sid-topp-sektionen -->
 <section class="page-top-section set-bg" data-setbg="img/topp-på-sida.jpg">
@@ -225,7 +235,7 @@ include("header.php");
                 <img src="<?php echo htmlentities($_SESSION['user']['profilbild'], ENT_QUOTES, 'UTF-8'); ?>" class="img img-rounded img-thumbnail" style="max-width: 120px"/>
             </div>
 <?php
-if($_SESSION['user']['status'] == 1){
+if($_SESSION['user']['status'] == 0){
 echo '
   <div class="container">
   <div class="row">

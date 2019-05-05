@@ -1,4 +1,5 @@
 <?php
+$sidtitel = "Registrera";
 include 'header.php';
 include 'nav.php';
 
@@ -48,11 +49,6 @@ if (!empty($_POST)){
 ?>
 
     <body>
-        <!-- Sid-preloader -->
-        <div id="preloder">
-            <div class="loader"></div>
-        </div>
-
         <!-- Sid-topp sida -->
         <section class="page-top-section set-bg" data-setbg="img/topp-på-sida.jpg">
             <div class="container">

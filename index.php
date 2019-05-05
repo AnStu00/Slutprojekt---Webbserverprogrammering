@@ -1,4 +1,5 @@
 <?php
+$sidtitel = "Hem";
 include 'header.php';
 include 'nav.php';
 

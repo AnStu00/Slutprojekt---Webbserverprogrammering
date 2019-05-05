@@ -1,5 +1,5 @@
 <?php
-$sidtitel = "Forum - ";
+$sidtitel = 'Ämne';
 include 'header.php';
 include 'nav.php';
 

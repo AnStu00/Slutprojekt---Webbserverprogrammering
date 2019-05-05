@@ -1,11 +1,21 @@
 <?php
-$sidtitel = "Forum - ";
+$sidtitel = "Inlägg";
 include 'header.php';
 include 'nav.php';
 if (isset($_SESSION['user']))
 {
 
 $id=$_GET['id'];
+
+$query1 ="SELECT * FROM posts WHERE post_id='$id'";
+try{
+  $result1 = $db->prepare($query1);
+  $result1->execute();
+  $rows1 = $result1->fetchAll();
+}
+catch(PDOException $ex){
+  die("Kunde inte köra queryn: " . $ex->getMessage());
+}
 $query1 ="SELECT * FROM posts WHERE post_id='$id'";
 try{
   $result1 = $db->prepare($query1);
@@ -16,13 +26,13 @@ catch(PDOException $ex){
   die("Kunde inte köra queryn: " . $ex->getMessage());
 }
 try{
-$stmt = $db->query("SELECT post_ämne FROM posts WHERE post_id='$id'");
+$stmt = $db->query("SELECT user_id FROM posts WHERE post_id='$id'");
 $kategori = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 catch(PDOException $ex){
   die("Kunde inte köra queryn: " . $ex->getMessage());
 }
-$kategori_id = $kategori['post_ämne'];
+$kategori_id = $kategori['user_id'];
 try{
 $stmt = $db->query("SELECT kat_namn FROM kategorier WHERE kat_id='$kategori_id'");
 $kategori = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -48,15 +58,15 @@ try{
 catch(PDOException $ex){
   die("Kunde inte köra queryn: " . $ex->getMessage());
 }
-
 if(isset($_POST['submit'])){
   $posts_id = $_POST['id'];
   $posts_innehåll = $_POST['kommentar1'];
   $posts_datum = date("Y-m-d H:i:s");
   $posts_ämne = $kategori_id;
   $posts_av = $_SESSION['user']['first_name'];
+  $posts_användare = $_SESSION['user']['id'];
 
-  $query = "INSERT INTO kommentarer(post_id, post_innehåll, post_datum, post_ämne, post_av) VALUES ('$posts_id', '$posts_innehåll', '$posts_datum', '$posts_ämne', '$posts_av')";
+  $query = "INSERT INTO kommentarer(post_id, post_innehåll, post_datum, user_id, post_ämne, post_av) VALUES ('$posts_id', '$posts_innehåll', '$posts_datum', '$posts_användare', '$posts_ämne', '$posts_av')";
   try{
     $stmt = $db->prepare($query);
     $stmt->execute();
@@ -64,7 +74,15 @@ if(isset($_POST['submit'])){
   catch(PDOException $ex){
     die("Kommentaren kunde inte läggas till, återvänd hem och försök igen! Felkod:" . $ex->getMessage());
   }
-header('Location: '.$_SERVER['REQUEST_URI']);
+  $query = "SELECT last_name profilbild FROM users WHERE id='$posts_användare'";
+  try{
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+  }
+  catch(PDOException $ex){
+    die("Kommentaren kunde inte läggas till, återvänd hem och försök igen! Felkod:" . $ex->getMessage());
+  }
+header('Location: inlagg.php?id='.$posts_id);
 }
 ?>
 <!-- Första Sektionen -->

@@ -4,67 +4,55 @@ if(isset($_SESSION['sessData'])){
   $sidtitel = 'Användarsida';
 }
 else{
-  $sidtitel = 'Inloggningsida';
+  $sidtitel = 'Logga In';
 }
 include 'header.php';
+$felkod = "";
+//Om användaren klickar på logga in, då har den knappen namnet "loggain"
+if(isset($_POST['loggain'])){
 
-//Eventuell koll om användaren har skrivit in sina inloggningsuppgifter
-$skrivit_email = '';
+    //Hämtar emailen med POST från forumläret användaren precis skrev in, tar även bort blankrum med trim innan och efter.
+    $email = !empty($_POST['email']) ? trim($_POST['email']) : null;
 
-//Kollar om personen har skrivit in sina inloggningsuppgifter
-//Skickas hit när personen klickar på logga in knappen (submit)
-if(!empty($_POST)){
-  //Denna query hämtar personens uppgifter med deras email
-  $query = "SELECT * FROM users WHERE email =:email";
-  $query_parameter = array(':email' => $_POST['email']);
+    //Hämtar användarinformationen med hjälp av emailen som användaren skrivit in.
+    $sql = "SELECT * FROM users WHERE email = :email";
+    $stmt = $db->prepare($sql);
 
-try {
-  //Exiverar queryn mot databasen
-  $stmt = $db ->prepare($query);
-  $result = $stmt->execute($query_parameter);
-}
-catch(PDOException $ex){
-  //Eventuell kod för skydd. Kan vara dåligt eftersom getMessage kan göra att attackers får info om min kod...
-  die("Kunde inte köra queryn:" . $ex->getMessage());
-}
+    //Binder värdet $email
+    $stmt->bindValue(':email', $email);
 
-//Denna variabeln kommer kolla om användaren lyckades logga in eller inte
-$login_okej = false;
-//Hämta användardatan från databasen, om $row är falsk kommer emailen de skrev in inte finnas registerad i databasen
-$row = $stmt->fetch();
-if($row){
-  //Använder lösenordet från databasen.
-  //Testar om lösenordet matchar med de hashade lösenordet i databasen
-  if ($check_password = hash('sha256', $_POST['password'])){
-    $login_okej = true;
-  }
-}
-//Om användaren lyckades logga in (d.v.s $login_okej = true) så skickas användaren vidare till användarsidan
-// Annars kommer ett felmedellande och personen får logga in ingen
-if ($login_okej){
-  unset($row['password']);
+    //Ecviterar och därmed hämtar användarinformationen
+    $stmt->execute();
 
-//Denna sparar användardatan
-//Denna kommer användas varje gång jag behöver kolla om användaren är inloggad eller inte
-//Den kommer också användas för att få fram data på klientens Skärm
-$_SESSION['user'] = $row;
+    //Hämtar informationen i en array
+    $användare = $stmt->fetch(PDO::FETCH_ASSOC);
 
-//Skickas vidare till användarsidan
-header('Location: index.php');
-die("Skickas till: index.php");
-}
-else {
-  //Skriver ut till användaren att inloggningen misslyckades
-  print("Inloggningen misslyckades. <br />");
-  var_dump($login_okej);
-}
+    //Om det inte finns någon email
+    if($användare === false){
+        $felkod = "Det finns ingen användare med den emailen, vänligen försök igen";
+    } else{
+        //Finns en användare på webbplatsen med den emailen.
+
+        //Kollar om lösenordet användaren skrivit in med det hashade lösenordet i databasen stämmer överens med varandra.
+        $lösenord_inskrivet = $_POST['password'];
+        $rättlösenord = $användare['password'];
+        //Om if satsen stämmer så stämmer lösenordet överens.
+      if ($rättlösenord == hash('sha256', $lösenord_inskrivet)){
+            //Sparar information i en session så att man kan hämtar information om användaren senare.
+            //Valde denna gång att spara ner tiden en användare varit inloggad med, ska använda det till en sak snart.
+            $_SESSION['user'] = $användare;
+            $_SESSION['logged_in'] = time();
+
+            //Skickas vidare till hem för att sessionen ska uppdateras.
+            header('Location: index.php');
+
+        } else{
+$felkod = "Lösenordet eller emailen du angav är ej korrekt, vänligen försök igen";
+        }
+    }
+
 }
 			?>
-    <!-- Sid-preloader -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
     <!-- Sid-topp-sektionen -->
     <section class="page-top-section set-bg" data-setbg="img/topp-på-sida.jpg">
         <div class="container">
@@ -175,15 +163,16 @@ else {
                         <h2>Logga in som en användare</h2>
                             <form action="login.php" method="post">
                                 <div class="form-group">
+                                  <p class="text-center font-weight-bold text-danger"><?php echo $felkod; ?></p>
                                     <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" name="email" class="form-control" placeholder="Skriv in din Email">
+                                    <input type="email" name="email" class="form-control" placeholder="Skriv in din Email" required>
                                     <small id="emailHelp" class="form-text text-muted">Vi delar inte din email address med någon annan.</small>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Lösenord</label>
-                                    <input type="password" name="password" class="form-control" placeholder="Password" value="">
+                                    <input type="password" name="password" class="form-control" placeholder="Skriv in ditt Lösenord" required>
                                 </div>
-                                <button type="submit" name="submit" class="btn btn-lg btn-block registreraknapp" value="Logga">Logga In</button>
+                                <button type="submit" name="loggain" class="btn btn-lg btn-block registreraknapp" value="Logga">Logga In</button>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Har du ingen användare? <a href="register.php">Skapa en användare</a></label>
                                 </div>
