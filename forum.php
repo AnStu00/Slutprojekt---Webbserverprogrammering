@@ -16,6 +16,7 @@ include 'nav.php';
       </span>
     </div>
   </div>
+    <button class="btn registreraknapp nere" onclick="window.location.href='skapa-ämne.php'">Skapa ämne</button>
 </section>
 <?php
 if (isset($_SESSION['user']))

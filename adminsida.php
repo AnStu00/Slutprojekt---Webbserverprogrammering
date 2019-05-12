@@ -17,6 +17,7 @@ if ($_SESSION['user']['status'] == 0){
   }
   $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
   $igenomloopat = 0;
+  $exempel = 0;
 ?>
 <!-- Första Sektionen -->
 <section class="page-top-section set-bg" data-setbg="img/topp-på-sida.jpg">
@@ -44,6 +45,7 @@ if ($_SESSION['user']['status'] == 0){
     </tr>
     <?php foreach($result as $row => $rs):
           $rows [] = $rs;
+
     ?>
         <tr>
             <td><?php echo $rows[$igenomloopat]['id']; ?></td>
@@ -55,11 +57,10 @@ if ($_SESSION['user']['status'] == 0){
             <td><?php echo htmlentities($rows[$igenomloopat]['changed'], ENT_QUOTES, 'UTF-8');?></td>
             <td><?php if($rows[$igenomloopat]['status'] == 1){echo "Ja";} else{echo "Nej";}; ?></td>
             <form action="admin/tabort.php" method="post">
-            <td><button type="submit" name="tabort" value="<?php echo htmlentities($row['id'], ENT_QUOTES, 'UTF-8'); ?>" class="btn registreraknapp">Ta Bort Användare</button></td>
+            <td><button type="submit" name="tabort" value="<?php echo htmlentities($rows[$igenomloopat]['id'], ENT_QUOTES, 'UTF-8'); ?>" class="btn registreraknapp">Ta Bort Användare</button></td>
           </form>
           <form action="change.php" method="post">
           <td>
-            <button type="button" class="btn registreraknapp" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Ändra Användare</button>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -73,27 +74,28 @@ if ($_SESSION['user']['status'] == 0){
                     <form action="admin/change.php" method="post">
                       <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Förnamn</label>
-                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$igenomloopat]['first_name'], ENT_QUOTES, 'UTF-8');?>">
+                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$test]['first_name'], ENT_QUOTES, 'UTF-8');?>">
                       </div>
                       <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Efternamn</label>
-                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$igenomloopat]['last_name'], ENT_QUOTES, 'UTF-8');?>">
+                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$test]['last_name'], ENT_QUOTES, 'UTF-8');?>">
                       </div>
                       <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Telefon</label>
-                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$igenomloopat]['telefon'], ENT_QUOTES, 'UTF-8');?>">
+                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$test]['telefon'], ENT_QUOTES, 'UTF-8');?>">
                       </div>
                       <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Email</label>
-                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$igenomloopat]['email'], ENT_QUOTES, 'UTF-8');?>">
+                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$test]['email'], ENT_QUOTES, 'UTF-8');?>">
                       </div>
                       <div class="form-group">
                         <label for="recipient-name" class="col-form-label">ID</label>
-                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$igenomloopat]['id'], ENT_QUOTES, 'UTF-8');?>">
+                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$test]['id'], ENT_QUOTES, 'UTF-8');?>">
                       </div>
                       <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Adminstatus</label>
-                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$igenomloopat]['status'], ENT_QUOTES, 'UTF-8');?>">
+                        <input type="text" class="form-control" value="<?php echo htmlentities($rows[$test]['status'], ENT_QUOTES, 'UTF-8');?>">
+                        <?php echo $test; ?>
                       </div>
                     </form>
                   </div>
@@ -104,10 +106,13 @@ if ($_SESSION['user']['status'] == 0){
                 </div>
               </div>
             </div>
+          <button type="button" value="<?php $exempel++; ?>" class="btn registreraknapp" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Ändra Användare</button>
           </td>
+            <td><button type="submit" name="tabort" value="<?php echo htmlentities($rows[$igenomloopat]['id'], ENT_QUOTES, 'UTF-8'); ?>" class="btn registreraknapp">Ta Bort Användare</button></td>
         </form>
         </tr>
-        <?php $igenomloopat++;?>
+                          <?php $igenomloopat++;
+                          ?>
     <?php endforeach; ?>
   </table>
   <h2>Lägg till kategori i forumet</h2>

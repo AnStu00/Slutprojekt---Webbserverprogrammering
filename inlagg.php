@@ -16,30 +16,6 @@ try{
 catch(PDOException $ex){
   die("Kunde inte köra queryn: " . $ex->getMessage());
 }
-$query1 ="SELECT * FROM posts WHERE post_id='$id'";
-try{
-  $result1 = $db->prepare($query1);
-  $result1->execute();
-  $rows1 = $result1->fetchAll();
-}
-catch(PDOException $ex){
-  die("Kunde inte köra queryn: " . $ex->getMessage());
-}
-try{
-$stmt = $db->query("SELECT user_id FROM posts WHERE post_id='$id'");
-$kategori = $stmt->fetch(PDO::FETCH_ASSOC);
-}
-catch(PDOException $ex){
-  die("Kunde inte köra queryn: " . $ex->getMessage());
-}
-$kategori_id = $kategori['user_id'];
-try{
-$stmt = $db->query("SELECT kat_namn FROM kategorier WHERE kat_id='$kategori_id'");
-$kategori = $stmt->fetch(PDO::FETCH_ASSOC);
-}
-catch(PDOException $ex){
-  die("Kunde inte köra queryn: " . $ex->getMessage());
-}
 try{
   $stmt = $db->query("SELECT * FROM ämne WHERE topic_id='$id'");
   $topic_subject = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -47,7 +23,14 @@ try{
 catch(PDOException $ex){
   die("Kunde inte köra queryn: " . $ex->getMessage());
 }
-
+$kategori_id = $topic_subject['topic_kat'];
+try{
+$stmt = $db->query("SELECT kat_namn FROM kategorier WHERE kat_id='$kategori_id'");
+$kategori = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+catch(PDOException $ex){
+  die("Kunde inte köra queryn: " . $ex->getMessage());
+}
 //Kommentarer
 $query = "SELECT * FROM kommentarer WHERE post_id='$id'";
 try{
@@ -58,23 +41,15 @@ try{
 catch(PDOException $ex){
   die("Kunde inte köra queryn: " . $ex->getMessage());
 }
+
 if(isset($_POST['submit'])){
   $posts_id = $_POST['id'];
   $posts_innehåll = $_POST['kommentar1'];
   $posts_datum = date("Y-m-d H:i:s");
-  $posts_ämne = $kategori_id;
   $posts_av = $_SESSION['user']['first_name'];
   $posts_användare = $_SESSION['user']['id'];
 
-  $query = "INSERT INTO kommentarer(post_id, post_innehåll, post_datum, user_id, post_ämne, post_av) VALUES ('$posts_id', '$posts_innehåll', '$posts_datum', '$posts_användare', '$posts_ämne', '$posts_av')";
-  try{
-    $stmt = $db->prepare($query);
-    $stmt->execute();
-  }
-  catch(PDOException $ex){
-    die("Kommentaren kunde inte läggas till, återvänd hem och försök igen! Felkod:" . $ex->getMessage());
-  }
-  $query = "SELECT last_name profilbild FROM users WHERE id='$posts_användare'";
+  $query = "INSERT INTO kommentarer(post_id, post_innehåll, post_datum, user_id, post_av) VALUES ('$posts_id', '$posts_innehåll', '$posts_datum', '$posts_användare', '$posts_av')";
   try{
     $stmt = $db->prepare($query);
     $stmt->execute();
@@ -84,6 +59,7 @@ if(isset($_POST['submit'])){
   }
 header('Location: inlagg.php?id='.$posts_id);
 }
+
 ?>
 <!-- Första Sektionen -->
 <section class="page-top-section set-bg" data-setbg="img/topp-på-sida.jpg">
@@ -93,46 +69,75 @@ header('Location: inlagg.php?id='.$posts_id);
       <a href="index.php">Hem</a> / <a href="forum.php">Forum</a> / <span><?php echo $kategori['kat_namn']; ?></span>
     </div>
   </div>
-  <button class="btn registreraknapp nere" onclick="window.location.href='admin/skapa-ämne.php'">Redigera Inlägg</button>
 </section>
-
   <div class="card mb-3 wow fadeIn">
       <div class="card-header font-weight-bold">Huvudinlägget</div>
 
-  <?php foreach($rows1 as $row1): ?>
+  <?php foreach($rows1 as $row1):
+    $user_id1 = ($row1['user_id']);
+    $query1 = "SELECT * FROM users WHERE id='$user_id1'";
+    try{
+      $stmt1 = $db->prepare($query1);
+      $stmt1->execute();
+      $info1 = $stmt1->fetch();
+    }
+    catch(PDOException $ex){
+      die("Kommentaren kunde inte läggas till, återvänd hem och försök igen! Felkod:" . $ex->getMessage());
+    }
+    ?>
 <div class="card-body">
       <div class="row">
           <div class="col-md-2">
-              <img src="<?php echo htmlentities($_SESSION['user']['profilbild'], ENT_QUOTES, 'UTF-8'); ?>" class="img img-rounded img-thumbnail" style="max-width: 120px"/>
-              <p class="text-secondary text-center"></p>
-          </div>
+              <img src="<?php echo htmlentities($info1['profilbild'], ENT_QUOTES, 'UTF-8'); ?>" class="img img-rounded img-thumbnail" style="max-width: 120px"/>
+              <p class="text-secondary text-center"><?php echo $row1['post_datum']; ?></p>
+        </div>
           <div class="col-md-10">
               <p>
-                  <strong>  <?php echo htmlentities($row1['post_av'], ENT_QUOTES, 'UTF-8'); ?></a>
+                  <strong>  <?php echo $info1['first_name']; echo " "; echo $info1['last_name']; echo " ("; echo $info1['email']; echo ")"?></a>
               </p>
               <div class="clearfix"></div>
               <p><?php echo htmlentities($row1['post_innehåll'], ENT_QUOTES, 'UTF-8'); ?></p>
           </div>
       </div>
+      <?php
+      if($info1['email'] == $_SESSION['user']['email']){
+        ?>
+    <button class="btn registreraknapp nere1" onclick="window.location.href='admin/skapa-ämne.php'">Redigera Inlägg</button>
+        <?php
+      }?>
   </div>
-    <?php endforeach; ?>
+<?php endforeach; ?>
     </div>
 </div>
-
 <div class="container" style="max-width: 95vw !important;">
   <div class="card mb-3 wow fadeIn">
-      <div class="card-header font-weight-bold">Kommentarer</div>
+<div class="card-header font-weight-bold">Kommentarer</div>
+</div>
+</div>
+      <?php foreach($rows as $row):
+        $user_id = $row['user_id'];
+        $query = "SELECT * FROM users WHERE id='$user_id'";
+        try{
+          $stmt = $db->prepare($query);
+          $stmt->execute();
+          $info = $stmt->fetch();
+        }
+        catch(PDOException $ex){
+          die("Kommentaren kunde inte läggas till, återvänd hem och försök igen! Felkod:" . $ex->getMessage());
+        }
+        ?>
+        <div class="container" style="max-width: 95vw !important;">
+          <div class="card mb-3 wow fadeIn">
 
-      <?php foreach($rows as $row): ?>
 <div class="card-body">
       <div class="row">
           <div class="col-md-2">
-              <img src="<?php echo htmlentities($_SESSION['user']['profilbild'], ENT_QUOTES, 'UTF-8'); ?>" class="img img-rounded img-thumbnail" style="max-width: 120px"/>
+              <img src="<?php echo htmlentities($info['profilbild'], ENT_QUOTES, 'UTF-8'); ?>" class="img img-rounded img-thumbnail" style="max-width: 120px"/>
               <p class="text-secondary text-center"><?php echo $row['post_datum'];?></p>
           </div>
           <div class="col-md-10">
               <p>
-                  <strong><?php echo $row['post_av'];?></strong></a>
+                  <strong><?php echo $info['first_name']; echo " "; echo $info['last_name']; echo " ("; echo $info['email']; echo ")"?></strong></a>
               </p>
               <div class="clearfix"></div>
               <p><?php echo $row['post_innehåll'];?></p>
@@ -141,9 +146,9 @@ header('Location: inlagg.php?id='.$posts_id);
           </div>
       </div>
   </div>
+      </div>
+      </div>
       <?php endforeach; ?>
-    </div>
-</div>
 <br>
 <div class="card mb-3 wow fadeIn">
     <div class="card-header font-weight-bold">Skriv en kommentar</div>
@@ -154,7 +159,7 @@ header('Location: inlagg.php?id='.$posts_id);
           <p class="font-weight-bold">Du är inloggad som: <?php echo $_SESSION['user']['first_name'];?> <?php echo $_SESSION['user']['last_name'];?> </p>
             <div class="form-group">
                 <label for="replyFormComment">Din kommentar</label>
-                <input type="text" class="form-control" id="replyFormComment" name="kommentar1" rows="5" required></textarea>
+                <input type="textarea" class="form-control" id="replyFormComment" name="kommentar1" rows="6" required></textarea>
             </div>
 
             <div class="text-center mt-4">
