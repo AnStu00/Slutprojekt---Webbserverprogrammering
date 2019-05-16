@@ -108,7 +108,6 @@ if ($_SESSION['user']['status'] == 0){
             </div>
           <button type="button" value="<?php $exempel++; ?>" class="btn registreraknapp" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Ändra Användare</button>
           </td>
-            <td><button type="submit" name="tabort" value="<?php echo htmlentities($rows[$igenomloopat]['id'], ENT_QUOTES, 'UTF-8'); ?>" class="btn registreraknapp">Ta Bort Användare</button></td>
         </form>
         </tr>
                           <?php $igenomloopat++;
@@ -119,7 +118,7 @@ if ($_SESSION['user']['status'] == 0){
   <form method="post" action="admin/skapa-kategori.php">
   <div class="form-group row">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Namn</label>
-    <div class="col-sm-10">
+  <div class="col-sm-10">
       <input type="kat_namn" name="kat_namn" class="form-control" id="inputEmail3" placeholder="Kategori">
     </div>
   </div>
@@ -131,7 +130,7 @@ if ($_SESSION['user']['status'] == 0){
     </div>
   <div class="form-group row">
     <div class="col-sm-10">
-      <button type="submit" name="submit" class="btn btn-primary">Lägg till</button>
+      <button type="submit" name="submit" class="btn registreraknapp">Lägg till</button>
     </div>
   </div>
 </form>

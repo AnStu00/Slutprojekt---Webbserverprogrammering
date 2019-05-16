@@ -25,4 +25,5 @@ else {
     die("Det uppstod lite problem när skapandet skulle ske:" . $ex->getMessage());
   }
 }
+header("location:../forum.php");
 ?>
